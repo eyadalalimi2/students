@@ -1,3 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">students</string>
+    <!-- هوية -->
+    <string name="app_name">المنهج الأكاديمي</string>
+
+    <!-- عامة -->
+    <string name="action_ok">حسناً</string>
+    <string name="action_cancel">إلغاء</string>
+    <string name="action_retry">إعادة المحاولة</string>
+    <string name="action_continue">متابعة</string>
+    <string name="action_back">رجوع</string>
+
+    <!-- مصادقة (مفاتيح أساسية فقط كي لا تتعطل الشاشات لاحقًا) -->
+    <string name="auth_login">تسجيل الدخول</string>
+    <string name="auth_register">إنشاء حساب</string>
+    <string name="auth_verify_email">تحقق البريد</string>
+    <string name="auth_activation">تفعيل الكود</string>
 </resources>
