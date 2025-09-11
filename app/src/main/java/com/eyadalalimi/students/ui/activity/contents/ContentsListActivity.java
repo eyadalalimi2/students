@@ -2,18 +2,20 @@ package com.eyadalalimi.students.ui.activity.contents;
 
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
+
 import com.eyadalalimi.students.R;
 import com.eyadalalimi.students.core.base.BaseActivity;
-import com.eyadalalimi.students.databinding.ActivitySimpleListBinding;
+import com.eyadalalimi.students.databinding.ActivityPlaceholderBinding;
 
 public class ContentsListActivity extends BaseActivity {
-    private ActivitySimpleListBinding binding;
-
-    @Override protected void onCreate(Bundle savedInstanceState) {
+    private ActivityPlaceholderBinding binding;
+    @Override protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivitySimpleListBinding.inflate(getLayoutInflater());
+        binding = ActivityPlaceholderBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        setupToolbar(binding.toolbar, getString(R.string.app_name) + " - المحتوى الخاص", true);
-        binding.tvInfo.setText("قائمة المحتوى الخاص (Contents) — ستتطلب u-scope ومصدر /contents");
+        setupToolbar(binding.toolbar, getString(R.string.contents_title), true);
+        setupBottomBar(binding.bottomBar, R.id.nav_contents);
+        binding.tvTitle.setText("قائمة المحتوى الخاص بالمؤسسة (Contents) — قريبًا");
     }
 }

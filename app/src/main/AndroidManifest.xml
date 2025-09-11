@@ -61,28 +61,11 @@
             android:screenOrientation="portrait" />
 
         <!-- Home -->
-        <activity
-            android:name="com.eyadalalimi.students.ui.activity.home.HomeActivity"
-            android:exported="false"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan|stateHidden" />
-        <!-- الشاشات الجديدة -->
-        <activity
-            android:name="com.eyadalalimi.students.ui.activity.assets.AssetsListActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.eyadalalimi.students.ui.activity.contents.ContentsListActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.eyadalalimi.students.ui.activity.materials.MaterialsActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.eyadalalimi.students.ui.activity.profile.ProfileActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
+        <activity android:name=".ui.activity.home.HomeActivity" />
+        <activity android:name=".ui.activity.assets.AssetsListActivity" />
+        <activity android:name=".ui.activity.contents.ContentsListActivity" />
+        <activity android:name=".ui.activity.materials.MaterialsActivity" />
+        <activity android:name=".ui.activity.profile.ProfileActivity" />
 
 
     </application>

@@ -1,34 +1,31 @@
 package com.eyadalalimi.students.model;
 
-import com.google.gson.annotations.SerializedName;
-
+@SuppressWarnings("unused")
 public class Asset {
-    public long id;
-
-    // "youtube" | "file" | "reference" | ...
-    public String category;
-
+    public Long id;
+    public String category;          // book | curriculum | question_bank | reference | file | youtube ...
     public String title;
     public String description;
+    public String status;            // "published" ...
+    public String published_at;
 
-    @SerializedName("published_at")
-    public String publishedAt;
+    public Long material_id;
+    public Long discipline_id;
+    public Long program_id;
+    public Long doctor_id;
 
-    @SerializedName("video_url")
-    public String videoUrl;
+    public Media media;              // الروابط أصبحت داخل media
+    public String created_at;
+    public String updated_at;
 
-    @SerializedName("file_path")
-    public String filePath;
+    public static class Media {
+        public String video_url;     // قد يكون null
+        public String file_path;     // قد يكون null
+        public String external_url;  // قد يكون null
+    }
 
-    @SerializedName("external_url")
-    public String externalUrl;
-
-    @SerializedName("material_id")
-    public Long materialId;
-
-    @SerializedName("discipline_id")
-    public Long disciplineId;
-
-    @SerializedName("program_id")
-    public Long programId;
+    // Helpers اختيارية
+    public String videoUrl()   { return media != null ? media.video_url   : null; }
+    public String filePath()   { return media != null ? media.file_path   : null; }
+    public String externalUrl(){ return media != null ? media.external_url: null; }
 }

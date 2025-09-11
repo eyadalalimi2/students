@@ -26,5 +26,9 @@
     <string name="open_email_app">فتح تطبيق البريد</string>
     <string name="i_have_verified">لقد ضغطت الرابط</string>
     <string name="resend_link">إعادة إرسال الرابط</string>
-
+    <string name="home_title">الرئيسية</string>
+    <string name="assets_title">المحتوى العام</string>
+    <string name="contents_title">المحتوى الخاص</string>
+    <string name="materials_title">المواد</string>
+    <string name="profile_title">ملفي</string>
 </resources>
