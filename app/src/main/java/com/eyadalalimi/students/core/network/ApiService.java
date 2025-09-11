@@ -2,6 +2,7 @@ package com.eyadalalimi.students.core.network;
 
 import com.eyadalalimi.students.model.Asset;
 import com.eyadalalimi.students.model.College;
+import com.eyadalalimi.students.model.Content;
 import com.eyadalalimi.students.model.Country;
 import com.eyadalalimi.students.model.Major;
 import com.eyadalalimi.students.model.PagedResponse;
@@ -75,4 +76,15 @@ public interface ApiService {
 
     @GET("assets/{id}")
     Call<ApiResponse<Asset>> assetDetails(@Path("id") long id);
+
+
+    // --- Contents (خاص بالمؤسسة - يتطلب u-scope) ---
+    @GET("contents")
+    Call<PagedResponse<Content>> contents(
+            @Query("limit") Integer limit,
+            @Query("cursor") String cursor
+    );
+
+    @GET("contents/{id}")
+    Call<ApiResponse<Content>> contentDetails(@Path("id") long id);
 }

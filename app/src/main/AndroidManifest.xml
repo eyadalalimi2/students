@@ -63,9 +63,12 @@
         <!-- Home -->
         <activity android:name=".ui.activity.home.HomeActivity" />
         <activity android:name=".ui.activity.assets.AssetsListActivity" />
-        <activity android:name=".ui.activity.contents.ContentsListActivity" />
         <activity android:name=".ui.activity.materials.MaterialsActivity" />
         <activity android:name=".ui.activity.profile.ProfileActivity" />
+        <activity
+            android:name=".ui.activity.contents.ContentsListActivity"
+            android:exported="false"
+            android:label="@string/contents_title" />
 
 
     </application>
