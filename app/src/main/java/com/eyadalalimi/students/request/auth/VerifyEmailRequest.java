@@ -1,5 +1,6 @@
 package com.eyadalalimi.students.request.auth;
 
 public class VerifyEmailRequest {
-    // ...VerifyEmailRequest fields and methods...
+    public String email;
+    public String code;
 }

@@ -1,5 +1,9 @@
 package com.eyadalalimi.students.vm;
 
-public class NotificationsViewModel {
-    // ...NotificationsViewModel implementation...
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModel;
+
+public class NotificationsViewModel extends ViewModel {
+    public final MutableLiveData<Boolean> loading = new MutableLiveData<>(false);
+    public final MutableLiveData<String> error = new MutableLiveData<>(null);
 }

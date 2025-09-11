@@ -5,10 +5,10 @@ import android.text.TextUtils;
 
 /**
  * يطبّق مصفوفة الوصول حسب ADR:
- * - Registered (token null) → Login فقط
- * - EmailVerified=false → VerifyEmail فقط
- * - Activated=false → Activation فقط
- * - Activated=true → Home
+ * - !isLoggedIn → Login فقط
+ * - !isEmailVerified → VerifyEmail فقط
+ * - !isActivated → Activation فقط
+ * - Activated → Home
  */
 public class SessionManager {
 
@@ -18,34 +18,14 @@ public class SessionManager {
         this.store = new PreferencesStore(ctx.getApplicationContext());
     }
 
-    public boolean isLoggedIn() {
-        return !TextUtils.isEmpty(store.getToken());
-    }
+    public boolean isLoggedIn() { return !TextUtils.isEmpty(store.getToken()); }
+    public void loginWithToken(String token) { store.setToken(token); store.setEmailVerified(false); store.setActivated(false); }
 
-    public void loginWithToken(String token) {
-        store.setToken(token);
-        // بعد تسجيل الدخول، البريد غير موثّق افتراضيًا حتى التحقق الفعلي
-        store.setEmailVerified(false);
-        store.setActivated(false);
-    }
+    public boolean isEmailVerified() { return store.isEmailVerified(); }
+    public void markEmailVerified() { store.setEmailVerified(true); }
 
-    public void markEmailVerified() {
-        store.setEmailVerified(true);
-    }
+    public boolean isActivated() { return store.isActivated(); }
+    public void markActivated() { store.setActivated(true); }
 
-    public boolean isEmailVerified() {
-        return store.isEmailVerified();
-    }
-
-    public void markActivated() {
-        store.setActivated(true);
-    }
-
-    public boolean isActivated() {
-        return store.isActivated();
-    }
-
-    public void logout() {
-        store.clearAll();
-    }
+    public void logout() { store.clearAll(); }
 }

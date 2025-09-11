@@ -1,5 +1,6 @@
 package com.eyadalalimi.students.model;
 
 public class PagedResponse<T> {
-    // ...PagedResponse fields and methods...
+    public T data;
+    public String next_cursor;
 }

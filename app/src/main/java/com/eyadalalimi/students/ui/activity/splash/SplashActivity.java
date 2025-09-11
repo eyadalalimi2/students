@@ -15,34 +15,18 @@ public class SplashActivity extends BaseActivity {
     private ActivitySplashBinding binding;
     private SessionManager session;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivitySplashBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
         session = new SessionManager(this);
-
-        binding.getRoot().postDelayed(this::route, 300); // تأخير بسيط لشاشة البداية
+        binding.getRoot().postDelayed(this::route, 300);
     }
 
     private void route() {
-        if (!session.isLoggedIn()) {
-            startActivity(new Intent(this, LoginActivity.class));
-            finish();
-            return;
-        }
-        if (!session.isEmailVerified()) {
-            startActivity(new Intent(this, VerifyEmailActivity.class));
-            finish();
-            return;
-        }
-        if (!session.isActivated()) {
-            startActivity(new Intent(this, ActivationActivity.class));
-            finish();
-            return;
-        }
-        startActivity(new Intent(this, HomeActivity.class));
-        finish();
+        if (!session.isLoggedIn()) { startActivity(new Intent(this, LoginActivity.class)); finish(); return; }
+        if (!session.isEmailVerified()) { startActivity(new Intent(this, VerifyEmailActivity.class)); finish(); return; }
+        if (!session.isActivated()) { startActivity(new Intent(this, ActivationActivity.class)); finish(); return; }
+        startActivity(new Intent(this, HomeActivity.class)); finish();
     }
 }

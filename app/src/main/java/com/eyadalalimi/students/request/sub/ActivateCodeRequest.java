@@ -1,5 +1,6 @@
 package com.eyadalalimi.students.request.sub;
 
 public class ActivateCodeRequest {
-    // ...ActivateCodeRequest fields and methods...
+    public String code;
+    public ActivateCodeRequest(String code){ this.code = code; }
 }

@@ -1,5 +1,8 @@
 package com.eyadalalimi.students.response;
 
 public class TokenResponse {
-    // ...TokenResponse fields and methods...
+    public Data data;
+    public static class Data {
+        public String token;
+    }
 }

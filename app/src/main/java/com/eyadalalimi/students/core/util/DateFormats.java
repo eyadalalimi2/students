@@ -1,5 +1,8 @@
 package com.eyadalalimi.students.core.util;
 
+import java.text.SimpleDateFormat;
+import java.util.Locale;
+
 public class DateFormats {
-    // ...DateFormats implementation...
+    public static final SimpleDateFormat ISO8601 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.US);
 }

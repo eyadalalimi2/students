@@ -1,5 +1,7 @@
 package com.eyadalalimi.students.response;
 
+import com.eyadalalimi.students.model.User;
+
 public class UserResponse {
-    // ...UserResponse fields and methods...
+    public User data;
 }

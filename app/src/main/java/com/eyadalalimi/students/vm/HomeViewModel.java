@@ -1,5 +1,9 @@
 package com.eyadalalimi.students.vm;
 
-public class HomeViewModel {
-    // ...HomeViewModel implementation...
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModel;
+
+public class HomeViewModel extends ViewModel {
+    public final MutableLiveData<Boolean> loading = new MutableLiveData<>(false);
+    public final MutableLiveData<String> error = new MutableLiveData<>(null);
 }

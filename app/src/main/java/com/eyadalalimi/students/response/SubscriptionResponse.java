@@ -1,5 +1,7 @@
 package com.eyadalalimi.students.response;
 
+import com.eyadalalimi.students.model.Subscription;
+
 public class SubscriptionResponse {
-    // ...SubscriptionResponse fields and methods...
+    public Subscription data;
 }

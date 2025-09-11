@@ -1,5 +1,9 @@
 package com.eyadalalimi.students.response;
 
+import com.eyadalalimi.students.model.Content;
+
+import java.util.List;
+
 public class ContentResponse {
-    // ...ContentResponse fields and methods...
+    public List<Content> data;
 }

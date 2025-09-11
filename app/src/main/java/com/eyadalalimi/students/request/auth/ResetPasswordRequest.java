@@ -1,5 +1,8 @@
 package com.eyadalalimi.students.request.auth;
 
 public class ResetPasswordRequest {
-    // ...ResetPasswordRequest fields and methods...
+    public String email;
+    public String token;
+    public String password;
+    public String password_confirmation;
 }

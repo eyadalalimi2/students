@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="none">
+        <item android:id="@+id/menu_notifications" android:title="@string/title_notifications" android:icon="@android:drawable/ic_dialog_email"/>
+        <item android:id="@+id/menu_devices" android:title="@string/title_devices" android:icon="@android:drawable/ic_menu_manage"/>
+        <item android:id="@+id/menu_logout" android:title="@string/btn_logout" android:icon="@android:drawable/ic_lock_power_off"/>
+    </group>
+</menu>

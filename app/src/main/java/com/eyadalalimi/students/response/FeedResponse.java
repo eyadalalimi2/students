@@ -1,5 +1,5 @@
 package com.eyadalalimi.students.response;
 
-public class FeedResponse {
-    // ...FeedResponse fields and methods...
-}
+import com.eyadalalimi.students.model.PagedResponse;
+
+public class FeedResponse extends PagedResponse<Object> { }

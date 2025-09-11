@@ -1,5 +1,9 @@
 package com.eyadalalimi.students.response;
 
+import com.eyadalalimi.students.model.Asset;
+
+import java.util.List;
+
 public class AssetResponse {
-    // ...AssetResponse fields and methods...
+    public List<Asset> data;
 }

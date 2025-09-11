@@ -1,5 +1,9 @@
 package com.eyadalalimi.students.vm;
 
-public class ChangePasswordViewModel {
-    // ...ChangePasswordViewModel implementation...
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModel;
+
+public class ChangePasswordViewModel extends ViewModel {
+    public final MutableLiveData<Boolean> loading = new MutableLiveData<>(false);
+    public final MutableLiveData<String> error = new MutableLiveData<>(null);
 }

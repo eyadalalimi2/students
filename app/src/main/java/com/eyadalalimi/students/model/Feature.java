@@ -1,5 +1,7 @@
 package com.eyadalalimi.students.model;
 
 public class Feature {
-    // ...Feature fields and methods...
+    public long id;
+    public String key;
+    public String label;
 }

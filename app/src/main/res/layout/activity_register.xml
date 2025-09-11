@@ -13,7 +13,6 @@
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
-            style="?attr/toolbarStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
@@ -23,6 +22,7 @@
             android:hint="الاسم"
             android:layout_marginTop="16dp">
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -30,9 +30,10 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="البريد الإلكتروني"
+            android:hint="@string/hint_email"
             android:layout_marginTop="12dp">
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textEmailAddress" />
@@ -41,9 +42,10 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="كلمة المرور"
+            android:hint="@string/hint_password"
             android:layout_marginTop="12dp">
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword" />
@@ -53,7 +55,7 @@
             android:id="@+id/btnRegister"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/auth_register"
+            android:text="@string/btn_register"
             android:layout_marginTop="20dp" />
     </LinearLayout>
 </ScrollView>

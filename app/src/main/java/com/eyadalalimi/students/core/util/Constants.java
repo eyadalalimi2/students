@@ -1,5 +1,5 @@
 package com.eyadalalimi.students.core.util;
 
 public class Constants {
-    // ...Constants implementation...
+    public static final String BASE_URL = "https://obdcodehub.com/api/v1/";
 }
