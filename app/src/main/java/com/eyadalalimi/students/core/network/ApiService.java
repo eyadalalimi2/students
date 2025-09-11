@@ -1,5 +1,6 @@
 package com.eyadalalimi.students.core.network;
 
+import com.eyadalalimi.students.model.Visibility;
 import com.eyadalalimi.students.request.auth.ForgotPasswordRequest;
 import com.eyadalalimi.students.request.auth.LoginRequest;
 import com.eyadalalimi.students.request.auth.RegisterRequest;
@@ -22,30 +23,17 @@ import retrofit2.http.POST;
 public interface ApiService {
 
     // Auth
-    @POST("auth/register")
-    Call<ApiResponse<TokenResponse>> register(@Body RegisterRequest body);
-
-    @POST("auth/login")
-    Call<ApiResponse<TokenResponse>> login(@Body LoginRequest body);
-
-    @POST("auth/email/resend")
-    Call<ApiResponse<MessageResponse>> resendVerify(@Body ResendEmailRequest body);
-
-    @POST("auth/email/verify")
-    Call<ApiResponse<VerifyEmailResponse>> verifyEmail(@Body VerifyEmailRequest body);
-
-    @POST("auth/password/forgot")
-    Call<ApiResponse<MessageResponse>> forgot(@Body ForgotPasswordRequest body);
-
-    @POST("auth/password/reset")
-    Call<ApiResponse<MessageResponse>> reset(@Body ResetPasswordRequest body);
-
-    @POST("auth/logout")
-    Call<ApiResponse<MessageResponse>> logout();
+    @POST("auth/register")        Call<ApiResponse<TokenResponse>> register(@Body RegisterRequest body);
+    @POST("auth/login")           Call<ApiResponse<TokenResponse>> login(@Body LoginRequest body);
+    @POST("auth/email/resend")    Call<ApiResponse<MessageResponse>> resendVerify(@Body ResendEmailRequest body);
+    @POST("auth/email/verify")    Call<ApiResponse<VerifyEmailResponse>> verifyEmail(@Body VerifyEmailRequest body);
+    @POST("auth/password/forgot") Call<ApiResponse<MessageResponse>> forgot(@Body ForgotPasswordRequest body);
+    @POST("auth/password/reset")  Call<ApiResponse<MessageResponse>> reset(@Body ResetPasswordRequest body);
+    @POST("auth/logout")          Call<ApiResponse<MessageResponse>> logout();
 
     // Me
-    @GET("auth/me")
-    Call<ApiResponse<UserResponse>> me();
+    @GET("auth/me")        Call<ApiResponse<UserResponse>> me();
+    @GET("me/visibility")  Call<ApiResponse<Visibility>> visibility();
 
     // Activation
     @POST("me/activate-code")

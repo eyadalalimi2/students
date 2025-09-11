@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_home"
+        android:icon="@android:drawable/ic_menu_view"
+        android:title="الرئيسية" />
+    <item
+        android:id="@+id/menu_assets"
+        android:icon="@android:drawable/ic_menu_agenda"
+        android:title="المحتوى العام" />
+    <item
+        android:id="@+id/menu_contents"
+        android:icon="@android:drawable/ic_menu_sort_by_size"
+        android:title="المحتوى الخاص" />
+    <item
+        android:id="@+id/menu_materials"
+        android:icon="@android:drawable/ic_menu_info_details"
+        android:title="المواد" />
+    <item
+        android:id="@+id/menu_profile"
+        android:icon="@android:drawable/ic_menu_myplaces"
+        android:title="ملفي" />
+</menu>

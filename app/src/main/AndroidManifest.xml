@@ -64,6 +64,24 @@
             android:exported="false"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateHidden" />
+        <!-- الشاشات الجديدة -->
+        <activity
+            android:name="com.eyadalalimi.students.ui.activity.assets.AssetsListActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.eyadalalimi.students.ui.activity.contents.ContentsListActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.eyadalalimi.students.ui.activity.materials.MaterialsActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.eyadalalimi.students.ui.activity.profile.ProfileActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+
 
     </application>
 </manifest>

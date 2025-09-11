@@ -1,5 +1,10 @@
 package com.eyadalalimi.students.model;
 
+
+@Deprecated
 public class Plan {
-    // ...Plan fields and methods...
+    public long id;
+    public String name;
+    public String description;
+    public boolean active;
 }
