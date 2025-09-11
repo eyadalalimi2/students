@@ -21,7 +21,7 @@
 -keep class com.eyadalalimi.students.model.** { *; }
 
 ###############################################
-# Retrofit/OkHttp (لاحقًا)
+# Retrofit/OkHttp
 ###############################################
 -dontwarn okhttp3.**
 -dontwarn okio.**
@@ -36,13 +36,6 @@
 # Firebase (لاحقًا)
 ###############################################
 -keep class * extends com.google.firebase.messaging.FirebaseMessagingService { *; }
-
-###############################################
-# WebView JS Interface (إن استخدمت)
-###############################################
-#-keepclassmembers class fqcn.of.javascript.interface.for.webview {
-#   public *;
-#}
 
 ###############################################
 # تحسين الضوضاء

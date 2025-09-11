@@ -12,8 +12,9 @@
         android:layout_height="wrap_content" />
 
     <TextView
+        android:id="@+id/tvHint"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/title_home"
+        android:text="مرحبا! الحساب مفعّل. انقر هنا للخروج (مؤقتاً)."
         android:padding="16dp" />
 </LinearLayout>

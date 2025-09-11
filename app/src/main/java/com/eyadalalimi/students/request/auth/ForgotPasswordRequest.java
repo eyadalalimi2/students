@@ -1,5 +1,6 @@
 package com.eyadalalimi.students.request.auth;
 
 public class ForgotPasswordRequest {
-    // ...ForgotPasswordRequest fields and methods...
+    public String email;
+    public ForgotPasswordRequest(String email) { this.email = email; }
 }

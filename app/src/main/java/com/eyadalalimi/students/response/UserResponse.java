@@ -1,5 +1,10 @@
 package com.eyadalalimi.students.response;
 
 public class UserResponse {
-    // ...UserResponse fields and methods...
+    public long id;
+    public String email;
+    public String name;
+    public Integer university_id;
+    public Integer major_id;
+    public boolean has_active_subscription;
 }

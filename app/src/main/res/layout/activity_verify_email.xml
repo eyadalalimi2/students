@@ -15,7 +15,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/msg_enter_otp"
+        android:text="أدخل رمز التحقق (6 أرقام)"
         android:layout_marginTop="16dp" />
 
     <EditText
@@ -30,6 +30,14 @@
         android:id="@+id/btnVerify"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/btn_verify"
+        android:text="@string/auth_verify_email"
         android:layout_marginTop="16dp" />
+
+    <TextView
+        android:id="@+id/btnResend"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/auth_resend_code"
+        android:textStyle="bold"
+        android:layout_marginTop="12dp" />
 </LinearLayout>

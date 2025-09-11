@@ -17,6 +17,7 @@
             android:layout_height="wrap_content" />
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="الاسم"
@@ -28,9 +29,10 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/hint_email"
+            android:hint="البريد الإلكتروني"
             android:layout_marginTop="12dp">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etEmail"
@@ -40,12 +42,26 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/hint_password"
+            android:hint="كلمة المرور"
             android:layout_marginTop="12dp">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilPassword2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="تأكيد كلمة المرور"
+            android:layout_marginTop="12dp">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etPassword2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword" />
@@ -55,7 +71,7 @@
             android:id="@+id/btnRegister"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/btn_register"
+            android:text="@string/auth_register"
             android:layout_marginTop="20dp" />
     </LinearLayout>
 </ScrollView>

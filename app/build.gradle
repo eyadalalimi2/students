@@ -25,9 +25,7 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
-        debug {
-            // إعدادات Debug الافتراضية
-        }
+        debug { }
     }
 
     compileOptions {
@@ -39,8 +37,14 @@ android {
 dependencies {
     implementation libs.appcompat
     implementation libs.material
-    implementation 'androidx.browser:browser:1.8.0'
-    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+
+    // شبكة
+    implementation libs.retrofit
+    implementation libs.retrofit.converter.gson
+    implementation libs.okhttp
+    implementation libs.okhttp.logging
+    implementation libs.gson
+
     testImplementation libs.junit
     androidTestImplementation libs.ext.junit
     androidTestImplementation libs.espresso.core

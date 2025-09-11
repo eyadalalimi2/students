@@ -4,11 +4,12 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 public class PreferencesStore {
-
     private static final String PREFS = "students_prefs";
+
     private static final String KEY_TOKEN = "auth_token";
     private static final String KEY_EMAIL_VERIFIED = "email_verified";
     private static final String KEY_ACTIVATED = "activated";
+    private static final String KEY_EMAIL = "user_email";
 
     private final SharedPreferences sp;
 
@@ -25,6 +26,9 @@ public class PreferencesStore {
 
     public void setActivated(boolean value) { sp.edit().putBoolean(KEY_ACTIVATED, value).apply(); }
     public boolean isActivated() { return sp.getBoolean(KEY_ACTIVATED, false); }
+
+    public void setEmail(String email) { sp.edit().putString(KEY_EMAIL, email).apply(); }
+    public String getEmail() { return sp.getString(KEY_EMAIL, null); }
 
     public void clearAll() { sp.edit().clear().apply(); }
 }

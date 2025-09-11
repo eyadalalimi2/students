@@ -1,65 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- عامة -->
     <string name="app_name">المنهج الأكاديمي</string>
+
+    <!-- عامة -->
     <string name="action_ok">حسناً</string>
     <string name="action_cancel">إلغاء</string>
     <string name="action_retry">إعادة المحاولة</string>
     <string name="action_continue">متابعة</string>
     <string name="action_back">رجوع</string>
 
-    <!-- عناوين -->
+    <!-- مصادقة -->
     <string name="auth_login">تسجيل الدخول</string>
     <string name="auth_register">إنشاء حساب</string>
-    <string name="auth_verify_email">تحقّق البريد</string>
+    <string name="auth_verify_email">تحقق البريد</string>
     <string name="auth_activation">تفعيل الكود</string>
     <string name="auth_forgot">نسيت كلمة المرور</string>
     <string name="auth_reset">إعادة التعيين</string>
-
-    <string name="title_home">الرئيسية</string>
-    <string name="title_assets">المحتوى العام</string>
-    <string name="title_asset_details">تفاصيل المحتوى العام</string>
-    <string name="title_contents">المحتوى الخاص</string>
-    <string name="title_content_details">تفاصيل المحتوى الخاص</string>
-    <string name="title_materials">المواد</string>
-    <string name="title_material_details">تفاصيل المادة</string>
-    <string name="title_profile">ملفي</string>
-    <string name="title_change_password">تغيير كلمة المرور</string>
-    <string name="title_devices">أجهزتي</string>
-    <string name="title_visibility">نطاق الرؤية</string>
-    <string name="title_notifications">الإشعارات</string>
-    <string name="title_viewer">عرض المستند</string>
-
-    <!-- رسائل -->
-    <string name="msg_enter_email">أدخل البريد الإلكتروني</string>
-    <string name="msg_enter_password">أدخل كلمة المرور</string>
-    <string name="msg_enter_otp">أدخل رمز التحقق (6 أرقام)</string>
-    <string name="msg_enter_activation">أدخل كود التفعيل</string>
-    <string name="msg_invalid_email">البريد غير صالح</string>
-    <string name="msg_invalid_otp">الرمز يجب أن يكون 6 أرقام</string>
-    <string name="msg_empty">الرجاء تعبئة الحقول المطلوبة</string>
-    <string name="msg_open_external">سيتم فتح الرابط خارجيًا</string>
-
-    <!-- أزرار -->
-    <string name="btn_login">تسجيل الدخول</string>
-    <string name="btn_register">إنشاء حساب</string>
-    <string name="btn_verify">تحقق</string>
-    <string name="btn_activate">تفعيل</string>
-    <string name="btn_send">إرسال</string>
-    <string name="btn_reset">إعادة التعيين</string>
-    <string name="btn_open">فتح</string>
-    <string name="btn_logout">تسجيل الخروج</string>
-
-    <!-- عناصر شاشة -->
-    <string name="hint_email">البريد الإلكتروني</string>
-    <string name="hint_password">كلمة المرور</string>
-    <string name="hint_otp">رمز التحقق</string>
-    <string name="hint_activation_code">كود التفعيل</string>
-    <string name="hint_search">بحث…</string>
-    <string name="menu_about">عن التطبيق</string>
-
-
-
-
-
+    <string name="auth_resend_code">إعادة إرسال الرمز</string>
 </resources>
