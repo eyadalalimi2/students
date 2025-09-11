@@ -16,6 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
+        <!-- الاسم / البريد / كلمة المرور -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tilName"
             android:layout_width="match_parent"
@@ -66,6 +67,102 @@
                 android:layout_height="wrap_content"
                 android:inputType="textPassword" />
         </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- الدولة -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="الدولة *"
+            android:textStyle="bold"
+            android:layout_marginTop="16dp" />
+        <Spinner
+            android:id="@+id/spCountry"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <ProgressBar
+            android:id="@+id/progressCountries"
+            style="?android:attr/progressBarStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
+
+        <!-- الجامعة -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="الجامعة (اختياري)"
+            android:textStyle="bold"
+            android:layout_marginTop="16dp" />
+        <Spinner
+            android:id="@+id/spUniversity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <ProgressBar
+            android:id="@+id/progressUniversities"
+            style="?android:attr/progressBarStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
+
+        <!-- الكلية -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="الكلية (اختياري)"
+            android:textStyle="bold"
+            android:layout_marginTop="16dp" />
+        <Spinner
+            android:id="@+id/spCollege"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <ProgressBar
+            android:id="@+id/progressColleges"
+            style="?android:attr/progressBarStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
+
+        <!-- التخصص -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="التخصص (اختياري)"
+            android:textStyle="bold"
+            android:layout_marginTop="16dp" />
+        <Spinner
+            android:id="@+id/spMajor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <ProgressBar
+            android:id="@+id/progressMajors"
+            style="?android:attr/progressBarStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
+
+        <!-- المستوى -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="المستوى (اختياري)"
+            android:textStyle="bold"
+            android:layout_marginTop="16dp" />
+        <Spinner
+            android:id="@+id/spLevel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <!-- الجنس -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="الجنس (اختياري)"
+            android:textStyle="bold"
+            android:layout_marginTop="16dp" />
+        <Spinner
+            android:id="@+id/spGender"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnRegister"

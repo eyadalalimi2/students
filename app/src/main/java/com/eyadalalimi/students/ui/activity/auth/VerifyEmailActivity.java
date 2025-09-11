@@ -1,20 +1,28 @@
 package com.eyadalalimi.students.ui.activity.auth;
 
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.view.View;
 import android.widget.Toast;
 
-import com.eyadalalimi.students.R;
 import com.eyadalalimi.students.core.base.BaseActivity;
 import com.eyadalalimi.students.databinding.ActivityVerifyEmailBinding;
+import com.eyadalalimi.students.model.User;
 import com.eyadalalimi.students.repo.ApiCallback;
 import com.eyadalalimi.students.repo.AuthRepository;
 import com.eyadalalimi.students.response.MessageResponse;
-import com.eyadalalimi.students.response.VerifyEmailResponse;
+import com.eyadalalimi.students.ui.activity.home.HomeActivity;
 
 public class VerifyEmailActivity extends BaseActivity {
+
     private ActivityVerifyEmailBinding binding;
-    private AuthRepository repo;
+    private AuthRepository authRepo;
+    private String emailForResend;
+    private CountDownTimer resendTimer;
+    private static final long RESEND_COOLDOWN_MS = 60_000L; // 60 ثانية
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,51 +30,128 @@ public class VerifyEmailActivity extends BaseActivity {
         binding = ActivityVerifyEmailBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        repo = new AuthRepository(this);
-        setupToolbar(binding.toolbar, getString(R.string.auth_verify_email), true);
+        authRepo = new AuthRepository(this);
+        setupToolbar(binding.toolbar, "تفعيل البريد الإلكتروني", true);
 
-        binding.btnVerify.setOnClickListener(v -> {
-            String code = binding.etOtp.getText() != null ? binding.etOtp.getText().toString().trim() : "";
-            if (code.length() != 6) {
-                Toast.makeText(this, "أدخل رمز 6 أرقام", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            String email = repo.getStoredEmail();
-            if (email == null || email.isEmpty()) {
-                Toast.makeText(this, "بريد غير معروف — أعد تسجيل الدخول", Toast.LENGTH_LONG).show();
-                return;
-            }
-            binding.btnVerify.setEnabled(false);
-            repo.verifyEmail(email, code, new ApiCallback<VerifyEmailResponse>() {
-                @Override public void onSuccess(VerifyEmailResponse data) {
-                    Toast.makeText(VerifyEmailActivity.this, "تم توثيق البريد.", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(VerifyEmailActivity.this, ActivationActivity.class));
-                    finish();
+        setLoading(true);
+        authRepo.me(new ApiCallback<User>() {
+            @Override public void onSuccess(User me) {
+                setLoading(false);
+                if (me != null) {
+                    emailForResend = me.email;
+                    if (binding.tvEmail != null) binding.tvEmail.setText(me.email != null ? me.email : "");
+                    if (isVerified(me)) {
+                        routeAfterVerification(me);
+                    }
                 }
-                @Override public void onError(String message) {
-                    binding.btnVerify.setEnabled(true);
-                    Toast.makeText(VerifyEmailActivity.this, message, Toast.LENGTH_LONG).show();
-                }
-            });
+            }
+            @Override public void onError(String message) {
+                setLoading(false);
+                toast("تعذر جلب الحساب: " + message);
+            }
         });
 
-        binding.btnResend.setOnClickListener(v -> {
-            String email = repo.getStoredEmail();
-            if (email == null || email.isEmpty()) {
-                Toast.makeText(this, "بريد غير معروف — أعد تسجيل الدخول", Toast.LENGTH_LONG).show();
-                return;
+        binding.btnOpenEmail.setOnClickListener(v -> openEmailApp());
+        binding.btnIHaveVerified.setOnClickListener(v -> checkVerified());
+        binding.btnResend.setOnClickListener(v -> resendLink());
+    }
+
+    private void openEmailApp() {
+        try {
+            Intent intent = new Intent(Intent.ACTION_MAIN);
+            intent.addCategory(Intent.CATEGORY_APP_EMAIL);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        } catch (ActivityNotFoundException e) {
+            try {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("mailto:")));
+            } catch (Exception ex) {
+                toast("تعذر فتح تطبيق البريد");
             }
-            binding.btnResend.setEnabled(false);
-            repo.resendEmail(email, new ApiCallback<MessageResponse>() {
-                @Override public void onSuccess(MessageResponse data) {
-                    Toast.makeText(VerifyEmailActivity.this, data != null && data.message != null ? data.message : "تم الإرسال", Toast.LENGTH_LONG).show();
-                    binding.btnResend.postDelayed(() -> binding.btnResend.setEnabled(true), 60000);
+        }
+    }
+
+    private void checkVerified() {
+        setLoading(true);
+        authRepo.me(new ApiCallback<User>() {
+            @Override public void onSuccess(User me) {
+                setLoading(false);
+                if (me != null && isVerified(me)) {
+                    routeAfterVerification(me);
+                } else {
+                    toast("لم نرصد التفعيل بعد. افتح رابط التفعيل في بريدك ثم حاول مرة أخرى.");
                 }
-                @Override public void onError(String message) {
-                    binding.btnResend.setEnabled(true);
-                    Toast.makeText(VerifyEmailActivity.this, message, Toast.LENGTH_LONG).show();
-                }
-            });
+            }
+            @Override public void onError(String message) {
+                setLoading(false);
+                toast(message);
+            }
         });
+    }
+
+    private void resendLink() {
+        if (emailForResend == null || emailForResend.isEmpty()) {
+            toast("لا يمكن إعادة الإرسال بدون بريد");
+            return;
+        }
+        setLoading(true);
+        authRepo.resendEmail(emailForResend, new ApiCallback<MessageResponse>() {
+            @Override public void onSuccess(MessageResponse data) {
+                setLoading(false);
+                toast("تم إرسال رابط التفعيل مجددًا");
+                startResendCooldown();
+            }
+            @Override public void onError(String message) {
+                setLoading(false);
+                toast(message);
+            }
+        });
+    }
+
+    private void startResendCooldown() {
+        binding.btnResend.setEnabled(false);
+        if (resendTimer != null) resendTimer.cancel();
+        resendTimer = new CountDownTimer(RESEND_COOLDOWN_MS, 1000) {
+            @Override public void onTick(long ms) {
+                long s = ms / 1000;
+                binding.btnResend.setText("إعادة الإرسال (" + s + "ث)");
+            }
+            @Override public void onFinish() {
+                binding.btnResend.setEnabled(true);
+                binding.btnResend.setText("إعادة إرسال الرابط");
+            }
+        }.start();
+    }
+
+    private boolean isVerified(User u) {
+        return u.email_verified_at != null && !u.email_verified_at.trim().isEmpty();
+    }
+
+    private boolean isActivated(User u) {
+        return u.has_active_subscription != null && u.has_active_subscription;
+    }
+
+    private void routeAfterVerification(User me) {
+        if (!isActivated(me)) {
+            startActivity(new Intent(this, ActivationActivity.class));
+        } else {
+            startActivity(new Intent(this, HomeActivity.class));
+        }
+        finish();
+    }
+
+    private void setLoading(boolean b) {
+        binding.progress.setVisibility(b ? View.VISIBLE : View.GONE);
+        binding.btnResend.setEnabled(!b);
+        binding.btnIHaveVerified.setEnabled(!b);
+        binding.btnOpenEmail.setEnabled(!b);
+    }
+
+    private void toast(String s) { Toast.makeText(this, s, Toast.LENGTH_LONG).show(); }
+
+    @Override
+    protected void onDestroy() {
+        if (resendTimer != null) resendTimer.cancel();
+        super.onDestroy();
     }
 }

@@ -1,37 +1,29 @@
 package com.eyadalalimi.students.model;
 
-import com.google.gson.annotations.SerializedName;
-
 public class User {
     public long id;
-
-    @SerializedName("student_number")
-    public String studentNumber;
-
+    public String student_number;
     public String name;
     public String email;
     public String phone;
+    public Long country_id;
+    public Long university_id;
+    public Long college_id;
+    public Long major_id;
+    public Integer level;
+    public String gender; // "male" | "female"
+    public String status; // "active" | ...
+    public Boolean has_active_subscription;
+    public String profile_photo_path;
+    public String email_verified_at; // أهم حقل للتوجيه
+    public String created_at;
+    public String updated_at;
 
-    @SerializedName("country_id")
-    public long countryId;
+    public boolean isEmailVerified() {
+        return email_verified_at != null && !email_verified_at.trim().isEmpty();
+    }
 
-    @SerializedName("university_id")
-    public Long universityId;
-
-    @SerializedName("college_id")
-    public Long collegeId;
-
-    @SerializedName("major_id")
-    public Long majorId;
-
-    public Integer level;            // nullable
-
-    public String gender;            // "male" | "female"
-    public String status;            // "active" | "suspended" | "graduated"
-
-    @SerializedName("has_active_subscription")
-    public boolean hasActiveSubscription;
-
-    @SerializedName("profile_photo_path")
-    public String profilePhotoPath;
+    public boolean isActivated() {
+        return has_active_subscription != null && has_active_subscription;
+    }
 }

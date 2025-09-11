@@ -2,43 +2,53 @@ package com.eyadalalimi.students.repo;
 
 import android.content.Context;
 
-import com.eyadalalimi.students.core.data.PreferencesStore;
-import com.eyadalalimi.students.core.data.SessionManager;
 import com.eyadalalimi.students.core.network.ApiClient;
 import com.eyadalalimi.students.core.network.ApiService;
+import com.eyadalalimi.students.model.User;
 import com.eyadalalimi.students.response.ApiResponse;
-import com.eyadalalimi.students.response.UserResponse;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ProfileRepository {
     private final ApiService api;
-    private final SessionManager session;
-    private final PreferencesStore store;
+    private final Gson gson = new Gson();
 
     public ProfileRepository(Context ctx) {
         this.api = ApiClient.get(ctx);
-        this.session = new SessionManager(ctx);
-        this.store = new PreferencesStore(ctx);
     }
 
-    public void fetchMe(ApiCallback<UserResponse> cb) {
-        api.me().enqueue(new Callback<ApiResponse<UserResponse>>() {
-            @Override public void onResponse(Call<ApiResponse<UserResponse>> call, Response<ApiResponse<UserResponse>> resp) {
-                if (resp.isSuccessful() && resp.body() != null && resp.body().data != null) {
-                    UserResponse u = resp.body().data;
-                    if (u.email != null) store.setEmail(u.email);
-                    if (u.has_active_subscription) session.markActivated(); // تفعيل فعلي من الخادم
-                    cb.onSuccess(u);
+    private String parseError(ResponseBody err) {
+        try {
+            String body = err.string();
+            JsonObject o = JsonParser.parseString(body).getAsJsonObject();
+            if (o.has("message")) return o.get("message").getAsString();
+            if (o.has("error") && o.getAsJsonObject("error").has("message"))
+                return o.getAsJsonObject("error").get("message").getAsString();
+            return "تعذر جلب البيانات";
+        } catch (Exception e) { return "تعذر قراءة الخطأ"; }
+    }
+
+    // جلب بيانات المستخدم الحالية
+    public void me(ApiCallback<User> cb) {
+        api.me().enqueue(new Callback<ApiResponse<User>>() {
+            @Override public void onResponse(Call<ApiResponse<User>> call, Response<ApiResponse<User>> resp) {
+                if (resp.isSuccessful() && resp.body() != null) {
+                    cb.onSuccess(resp.body().data);
                 } else {
-                    cb.onError("تعذر جلب بيانات المستخدم");
+                    cb.onError(resp.errorBody()!=null? parseError(resp.errorBody()) : "فشل الاتصال");
                 }
             }
-            @Override public void onFailure(Call<ApiResponse<UserResponse>> call, Throwable t) {
-                cb.onError(t.getMessage() != null ? t.getMessage() : "فشل الشبكة");
+            @Override public void onFailure(Call<ApiResponse<User>> call, Throwable t) {
+                cb.onError(t.getMessage()!=null? t.getMessage() : "فشل الشبكة");
             }
         });
     }
+
+    // يمكنك إضافة تحديث الملف الشخصي هنا لاحقًا (PUT /me/profile) إن لزم
 }

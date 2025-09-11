@@ -1,8 +1,7 @@
 package com.eyadalalimi.students.core.network;
 
-import androidx.annotation.Nullable;
-
-import com.eyadalalimi.students.core.data.PreferencesStore;
+import android.content.Context;
+import android.content.SharedPreferences;
 
 import java.io.IOException;
 
@@ -10,25 +9,30 @@ import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;
 
-class AuthInterceptor implements Interceptor {
-    private final PreferencesStore store;
+public class AuthInterceptor implements Interceptor {
 
-    AuthInterceptor(PreferencesStore store) {
-        this.store = store;
+    private final Context appCtx;
+
+    public AuthInterceptor(Context ctx) {
+        this.appCtx = ctx.getApplicationContext();
     }
-
-    @Nullable
-    private String token() { return store.getToken(); }
 
     @Override
     public Response intercept(Chain chain) throws IOException {
-        Request req = chain.request();
-        String t = token();
-        if (t != null && !t.isEmpty()) {
-            req = req.newBuilder()
-                    .addHeader("Authorization", "Bearer " + t)
-                    .build();
+        Request original = chain.request();
+
+        // نضبط Accept دائمًا
+        Request.Builder builder = original.newBuilder()
+                .header("Accept", "application/json");
+
+        // نقرأ التوكن من نفس الـ SharedPreferences التي يكتب لها AuthRepository
+        SharedPreferences sp = appCtx.getSharedPreferences("auth", Context.MODE_PRIVATE);
+        String token = sp.getString("token", null);
+
+        if (token != null && !token.isEmpty()) {
+            builder.header("Authorization", "Bearer " + token);
         }
-        return chain.proceed(req);
+
+        return chain.proceed(builder.build());
     }
 }

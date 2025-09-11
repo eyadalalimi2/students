@@ -17,4 +17,14 @@
     <string name="auth_forgot">نسيت كلمة المرور</string>
     <string name="auth_reset">إعادة التعيين</string>
     <string name="auth_resend_code">إعادة إرسال الرمز</string>
+    <string name="email">البريد الإلكتروني</string>
+    <string name="password">كلمة المرور</string>
+    <string name="forgot_password">نسيت كلمة المرور؟</string>
+    <string name="create_account">إنشاء حساب جديد</string>
+    <string name="verify_email_title">تفعيل البريد الإلكتروني</string>
+    <string name="verify_email_desc">أرسلنا رابط تفعيل إلى بريدك. افتح الرابط ثم عُد للتطبيق.</string>
+    <string name="open_email_app">فتح تطبيق البريد</string>
+    <string name="i_have_verified">لقد ضغطت الرابط</string>
+    <string name="resend_link">إعادة إرسال الرابط</string>
+
 </resources>
