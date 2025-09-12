@@ -31,6 +31,28 @@
     <string name="contents_title">المحتوى الخاص</string>
     <string name="materials_title">المواد</string>
     <string name="profile_title">ملفي</string>
+    <string name="material_details_title">تفاصيل المادة</string>
+    <string name="doc_viewer_title">عرض الملف</string>
+    <string name="doc_unknown">ملف بدون اسم</string>
+    <string name="doc_viewer_hint">سيتم تنزيل الملف إلى مجلد التنزيلات وفتحه بتطبيق خارجي مناسب.</string>
+    <string name="doc_download_open">تنزيل وفتح</string>
+    <string name="title_materials">المواد</string>
+    <string name="title_material_details">تفاصيل المادة</string>
+    <string name="btn_open_assets_for_material">عرض المحتوى العام لهذه المادة</string>
+    <string name="btn_open_contents_for_material">عرض المحتوى الخاص لهذه المادة</string>
+    <string name="title_assets">المحتوى العام</string>
+    <string name="title_contents">المحتوى الخاص</string>
+    <string name="list_empty">لا توجد بيانات للعرض</string>
+    <string name="filter_by_material_id">مادة#%1$s</string>
+    <string name="filter_by_category">الفئة: %1$s</string>
+    <string name="filter_by_type">النوع: %1$s</string>
+    <string name="action_filter">تصفية</string>
+    <string name="action_apply">تطبيق</string>
+    <string name="action_clear">مسح الفلاتر</string>
+    <string name="hint_material_id">رقم المادة (اختياري)</string>
+    <string name="label_category">الفئة</string>
+    <string name="label_type">النوع</string>
+    <string name="filter_none">بدون</string>
 
 
 
