@@ -124,8 +124,8 @@ public interface ApiService {
     Call<ListResponse<Content>> contents(
             @Query("limit") Integer limit,
             @Query("cursor") String cursor,
-            @Query("material_id") Long materialId,   // اختياري
-            @Query("type") String type               // اختياري: file|video|link
+            @Query("material_id") Long materialId,
+            @Query("type") String type
     );
 
     @GET("contents/{id}")
@@ -137,7 +137,7 @@ public interface ApiService {
     Call<ListResponse<Material>> materials(
             @Query("limit") Integer limit,
             @Query("cursor") String cursor,
-            @Query("scope") String scope,            // اختياري: global|university
+            @Query("scope") String scope,
             @Query("university_id") Long universityId,
             @Query("college_id") Long collegeId,
             @Query("major_id") Long majorId
@@ -145,4 +145,6 @@ public interface ApiService {
 
     @GET("materials/{id}")
     Call<ApiResponse<Material>> material(@Path("id") long id);
+
+
 }
