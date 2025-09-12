@@ -46,7 +46,7 @@ public interface ApiService {
     @POST("auth/logout")
     Call<ApiResponse<MessageResponse>> logout();
 
-    // التحقق بالبريد عبر "رابط" فقط (لا يوجد إدخال كود في العميل)
+    // التحقق بالبريد عبر رابط التفعيل
     @POST("auth/email/resend")
     Call<ApiResponse<MessageResponse>> resendVerify(@Body ResendEmailRequest body);
 
@@ -60,7 +60,6 @@ public interface ApiService {
     @GET("auth/me")
     Call<ApiResponse<User>> me();
 
-
     // ===== Profile & Security =====
     @GET("me/profile")
     Call<ApiResponse<User>> getProfile();
@@ -73,16 +72,13 @@ public interface ApiService {
     @PUT("me/security/change-password")
     Call<ApiResponse<MessageResponse>> changePassword(@Body Map<String, String> body);
 
-
     // ===== Visibility =====
     @GET("me/visibility")
     Call<ApiResponse<VisibilityInfo>> meVisibility();
 
-
     // ===== Activation =====
     @POST("me/activate-code")
     Call<ApiResponse<SubscriptionResponse>> activateCode(@Body ActivateCodeRequest body);
-
 
     // ===== Structure =====
     @GET("countries")
@@ -97,7 +93,6 @@ public interface ApiService {
     @GET("colleges/{id}/majors")
     Call<ApiResponse<List<Major>>> majors(@Path("id") long collegeId);
 
-
     // ===== Feed =====
     @GET("me/feed")
     Call<PagedResponse<FeedItem>> meFeed(
@@ -105,8 +100,7 @@ public interface ApiService {
             @Query("cursor") String cursor
     );
 
-
-    // ===== Assets (عام) =====
+    // ===== Assets =====
     @GET("assets")
     Call<ListResponse<Asset>> assets(
             @Query("limit") Integer limit,
@@ -118,8 +112,7 @@ public interface ApiService {
     @GET("assets/{id}")
     Call<ApiResponse<Asset>> asset(@Path("id") long id);
 
-
-    // ===== Contents (خاص بالمؤسسة) =====
+    // ===== Contents =====
     @GET("contents")
     Call<ListResponse<Content>> contents(
             @Query("limit") Integer limit,
@@ -130,7 +123,6 @@ public interface ApiService {
 
     @GET("contents/{id}")
     Call<ApiResponse<Content>> content(@Path("id") long id);
-
 
     // ===== Materials =====
     @GET("materials")
@@ -145,6 +137,4 @@ public interface ApiService {
 
     @GET("materials/{id}")
     Call<ApiResponse<Material>> material(@Path("id") long id);
-
-
 }

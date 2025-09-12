@@ -15,9 +15,7 @@ import java.util.List;
 
 public class AssetsAdapter extends RecyclerView.Adapter<AssetsAdapter.VH> {
 
-    public interface OnItemClick {
-        void onClick(Asset a);
-    }
+    public interface OnItemClick { void onClick(Asset a); }
 
     private List<Asset> items;
     private final OnItemClick click;
@@ -40,7 +38,9 @@ public class AssetsAdapter extends RecyclerView.Adapter<AssetsAdapter.VH> {
     @Override public void onBindViewHolder(@NonNull VH h, int position) {
         Asset a = items.get(position);
         h.title.setText(a.title != null ? a.title : "-");
-        h.subtitle.setText(buildSubtitle(a));
+        String type = a.kind();
+        String date = a.published_at != null ? a.published_at : "";
+        h.subtitle.setText("النوع: " + type + (date.isEmpty() ? "" : " · " + date));
         h.itemView.setOnClickListener(v -> click.onClick(a));
     }
 
@@ -53,11 +53,5 @@ public class AssetsAdapter extends RecyclerView.Adapter<AssetsAdapter.VH> {
             title = itemView.findViewById(R.id.tvTitle);
             subtitle = itemView.findViewById(R.id.tvSubtitle);
         }
-    }
-
-    private String buildSubtitle(Asset a) {
-        String type = a.category != null ? a.category : "—";
-        String date = a.published_at != null ? a.published_at : "";
-        return "النوع: " + type + (date.isEmpty() ? "" : " · " + date);
     }
 }

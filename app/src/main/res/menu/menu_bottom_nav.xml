@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/nav_home"     android:title="الرئيسية"/>
-    <item android:id="@+id/nav_assets"   android:title="المحتوى العام"/>
-    <item android:id="@+id/nav_contents" android:title="المحتوى الخاص"/>
-    <item android:id="@+id/nav_materials" android:title="المواد"/>
-    <item android:id="@+id/nav_profile"  android:title="ملفي"/>
+    <item android:id="@+id/nav_home"     android:title="@string/home_title"/>
+    <item android:id="@+id/nav_assets"   android:title="@string/assets_title"/>
+    <item android:id="@+id/nav_contents" android:title="@string/contents_title"/>
+    <item android:id="@+id/nav_materials" android:title="@string/materials_title"/>
+    <item android:id="@+id/nav_profile"  android:title="@string/profile_title"/>
 </menu>

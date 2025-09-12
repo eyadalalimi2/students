@@ -15,7 +15,7 @@ public class Content {
     public Long major_id;
     public Long doctor_id;
 
-    public Media media;              // { source_url, file_path }
+    public com.eyadalalimi.students.model.Media media;              // { source_url, file_path }
     public String created_at;
     public String updated_at;
 

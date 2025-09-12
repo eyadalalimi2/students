@@ -5,9 +5,8 @@ import android.content.Context;
 import com.eyadalalimi.students.core.network.ApiClient;
 import com.eyadalalimi.students.core.network.ApiService;
 import com.eyadalalimi.students.model.Asset;
-import com.eyadalalimi.students.model.PagedResponse;
-
-import java.util.List;
+import com.eyadalalimi.students.response.ApiResponse;
+import com.eyadalalimi.students.response.ListResponse;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -15,29 +14,38 @@ import retrofit2.Response;
 
 public class AssetsRepository {
 
+    public interface ApiCallback<T> {
+        void onSuccess(T data);
+        void onError(String msg);
+    }
+
     private final ApiService api;
 
     public AssetsRepository(Context ctx) {
         this.api = ApiClient.get(ctx);
     }
 
-    public void list(Integer limit, Long materialId, String category, String cursor,
-                     ApiCallback<List<Asset>> cb) {
-        api.assets(limit, materialId, category, cursor)
-                .enqueue(new Callback<PagedResponse<Asset>>() {
-                    @Override
-                    public void onResponse(Call<PagedResponse<Asset>> call, Response<PagedResponse<Asset>> resp) {
-                        if (resp.isSuccessful() && resp.body() != null) {
-                            cb.onSuccess(resp.body().data);
-                        } else {
-                            cb.onError("تعذّر تحميل المحتوى العام");
-                        }
-                    }
+    public void list(Integer limit, String cursor, Long materialId, String category, final ApiCallback<ListResponse<Asset>> cb) {
+        api.assets(limit, cursor, materialId, category).enqueue(new Callback<ListResponse<Asset>>() {
+            @Override public void onResponse(Call<ListResponse<Asset>> call, Response<ListResponse<Asset>> resp) {
+                if (resp.isSuccessful() && resp.body()!=null) cb.onSuccess(resp.body());
+                else cb.onError("فشل تحميل المحتوى العام");
+            }
+            @Override public void onFailure(Call<ListResponse<Asset>> call, Throwable t) {
+                cb.onError(t.getMessage());
+            }
+        });
+    }
 
-                    @Override
-                    public void onFailure(Call<PagedResponse<Asset>> call, Throwable t) {
-                        cb.onError(t.getMessage() != null ? t.getMessage() : "فشل الشبكة");
-                    }
-                });
+    public void get(long id, final ApiCallback<ApiResponse<Asset>> cb) {
+        api.asset(id).enqueue(new Callback<ApiResponse<Asset>>() {
+            @Override public void onResponse(Call<ApiResponse<Asset>> call, Response<ApiResponse<Asset>> resp) {
+                if (resp.isSuccessful() && resp.body()!=null) cb.onSuccess(resp.body());
+                else cb.onError("فشل جلب التفاصيل");
+            }
+            @Override public void onFailure(Call<ApiResponse<Asset>> call, Throwable t) {
+                cb.onError(t.getMessage());
+            }
+        });
     }
 }

@@ -27,19 +27,28 @@ import retrofit2.Response;
 
 public class AuthRepository {
 
+    /**
+     * Alias داخلي للتوافق مع الشيفرات التي تستخدم AuthRepository.ApiCallback
+     * يمتد من الواجهة العامة في نفس الحزمة com.eyadalalimi.students.repo.ApiCallback
+     */
+    public interface ApiCallback<T> extends com.eyadalalimi.students.repo.ApiCallback<T> {}
+
     private final Context appCtx;
     private final ApiService api;
     private final Gson gson = new Gson();
 
     public AuthRepository(Context ctx) {
         this.appCtx = ctx.getApplicationContext();
-        this.api = ApiClient.get(ctx);
+        this.api = ApiClient.get(ctx); // ApiClient.get(...) يعيد ApiService مباشرة
     }
 
     // ====== Auth ======
 
     // الاستدعاء القياسي: تمرير RegisterRequest مباشرة
-    public void register(RegisterRequest body, ApiCallback<TokenResponse> cb) {
+    public void register(
+            RegisterRequest body,
+            com.eyadalalimi.students.repo.ApiCallback<TokenResponse> cb
+    ) {
         api.register(body).enqueue(new Callback<ApiResponse<TokenResponse>>() {
             @Override public void onResponse(Call<ApiResponse<TokenResponse>> call, Response<ApiResponse<TokenResponse>> resp) {
                 if (resp.isSuccessful() && resp.body()!=null && resp.body().data!=null) {
@@ -71,27 +80,30 @@ public class AuthRepository {
             Integer major_id,
             Integer level,
             String gender,
-            ApiCallback<TokenResponse> cb
+            com.eyadalalimi.students.repo.ApiCallback<TokenResponse> cb
     ) {
-        // ترتيب الوسائط يطابق مُنشئ RegisterRequest الموجود لديك:
         RegisterRequest req = new RegisterRequest(
                 name,
                 email,
                 password,
                 password_confirmation,
                 loginDevice,
-                (country_id != null ? country_id : 0), // إلزامي في السيرفر
+                (country_id != null ? country_id : 0), // تأكد من إرساله، الخادم يعتبره مطلوبًا
                 university_id,
                 college_id,
                 major_id,
                 level,
                 gender
         );
-
         register(req, cb);
     }
 
-    public void login(String email, String password, String loginDevice, ApiCallback<TokenResponse> cb) {
+    public void login(
+            String email,
+            String password,
+            String loginDevice,
+            com.eyadalalimi.students.repo.ApiCallback<TokenResponse> cb
+    ) {
         LoginRequest body = new LoginRequest(email, password, loginDevice);
         api.login(body).enqueue(new Callback<ApiResponse<TokenResponse>>() {
             @Override public void onResponse(Call<ApiResponse<TokenResponse>> call, Response<ApiResponse<TokenResponse>> resp) {
@@ -110,7 +122,7 @@ public class AuthRepository {
         });
     }
 
-    public void logout(ApiCallback<MessageResponse> cb) {
+    public void logout(com.eyadalalimi.students.repo.ApiCallback<MessageResponse> cb) {
         api.logout().enqueue(new Callback<ApiResponse<MessageResponse>>() {
             @Override public void onResponse(Call<ApiResponse<MessageResponse>> call, Response<ApiResponse<MessageResponse>> resp) {
                 if (resp.isSuccessful() && resp.body()!=null) {
@@ -126,7 +138,7 @@ public class AuthRepository {
         });
     }
 
-    public void resendEmail(String email, ApiCallback<MessageResponse> cb) {
+    public void resendEmail(String email, com.eyadalalimi.students.repo.ApiCallback<MessageResponse> cb) {
         api.resendVerify(new ResendEmailRequest(email))
                 .enqueue(new Callback<ApiResponse<MessageResponse>>() {
                     @Override public void onResponse(Call<ApiResponse<MessageResponse>> call, Response<ApiResponse<MessageResponse>> resp) {
@@ -144,7 +156,7 @@ public class AuthRepository {
 
     // ====== Me / Profile ======
 
-    public void me(ApiCallback<User> cb) {
+    public void me(com.eyadalalimi.students.repo.ApiCallback<User> cb) {
         api.me().enqueue(new Callback<ApiResponse<User>>() {
             @Override public void onResponse(Call<ApiResponse<User>> call, Response<ApiResponse<User>> resp) {
                 if (resp.isSuccessful() && resp.body()!=null) {
@@ -161,7 +173,7 @@ public class AuthRepository {
 
     // ====== Activation ======
 
-    public void activateCode(String code, ApiCallback<SubscriptionResponse> cb) {
+    public void activateCode(String code, com.eyadalalimi.students.repo.ApiCallback<SubscriptionResponse> cb) {
         api.activateCode(new ActivateCodeRequest(code))
                 .enqueue(new Callback<ApiResponse<SubscriptionResponse>>() {
                     @Override public void onResponse(Call<ApiResponse<SubscriptionResponse>> call, Response<ApiResponse<SubscriptionResponse>> resp) {
@@ -179,7 +191,7 @@ public class AuthRepository {
 
     // ====== Password ======
 
-    public void forgotPassword(String email, ApiCallback<MessageResponse> cb) {
+    public void forgotPassword(String email, com.eyadalalimi.students.repo.ApiCallback<MessageResponse> cb) {
         api.forgot(new ForgotPasswordRequest(email))
                 .enqueue(new Callback<ApiResponse<MessageResponse>>() {
                     @Override public void onResponse(Call<ApiResponse<MessageResponse>> call, Response<ApiResponse<MessageResponse>> resp) {
@@ -193,7 +205,13 @@ public class AuthRepository {
     }
 
     // التوقيع الذي يطلبه ResetPasswordActivity حالياً (email, token, pass, confirm)
-    public void resetPassword(String email, String token, String newPass, String confirmPass, ApiCallback<MessageResponse> cb) {
+    public void resetPassword(
+            String email,
+            String token,
+            String newPass,
+            String confirmPass,
+            com.eyadalalimi.students.repo.ApiCallback<MessageResponse> cb
+    ) {
         api.reset(new ResetPasswordRequest(email, token, newPass, confirmPass))
                 .enqueue(new Callback<ApiResponse<MessageResponse>>() {
                     @Override public void onResponse(Call<ApiResponse<MessageResponse>> call, Response<ApiResponse<MessageResponse>> resp) {
@@ -221,6 +239,18 @@ public class AuthRepository {
     private void persistEmail(String email) {
         SharedPreferences sp = appCtx.getSharedPreferences("auth", Context.MODE_PRIVATE);
         sp.edit().putString("last_email", email).apply();
+    }
+
+    /** يُستخدم في HomeActivity */
+    public String getLastLoginEmail() {
+        SharedPreferences sp = appCtx.getSharedPreferences("auth", Context.MODE_PRIVATE);
+        return sp.getString("last_email", null);
+    }
+
+    /** مفيد عند الحاجة لإرسال التوكن خارج الـ Interceptor */
+    public String getToken() {
+        SharedPreferences sp = appCtx.getSharedPreferences("auth", Context.MODE_PRIVATE);
+        return sp.getString("token", null);
     }
 
     private String parseError(ResponseBody err) {
