@@ -31,7 +31,9 @@
             android:visibility="gone"
             app:chipIconVisible="false"
             app:closeIconVisible="true"
-            android:text="مادة#" />
+            android:text="مادة#"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chipType"
@@ -39,7 +41,9 @@
             android:visibility="gone"
             app:chipIconVisible="false"
             app:closeIconVisible="true"
-            android:text="النوع" />
+            android:text="النوع"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
     </com.google.android.material.chip.ChipGroup>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout

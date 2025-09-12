@@ -28,6 +28,7 @@
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomBar"
         android:layout_width="match_parent"
+        android:background="#0B3D91"
         android:layout_height="wrap_content"
         app:menu="@menu/menu_bottom_nav"/>
 </LinearLayout>

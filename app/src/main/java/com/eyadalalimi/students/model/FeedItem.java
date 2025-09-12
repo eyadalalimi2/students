@@ -22,8 +22,7 @@ public class FeedItem {
     // فئة/نوع: لأصول "category"، وللمحتوى "type"
     public String tag;
 
-    @SerializedName("published_at")
-    public String publishedAt;
+
 
     // روابط/ملفات إن لزم
     public Media media;
