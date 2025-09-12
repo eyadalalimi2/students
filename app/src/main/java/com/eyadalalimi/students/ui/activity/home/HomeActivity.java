@@ -23,10 +23,12 @@ import com.eyadalalimi.students.repo.AuthRepository;
 import com.eyadalalimi.students.repo.FeedRepository;
 import com.eyadalalimi.students.repo.ProfileRepository;
 import com.eyadalalimi.students.ui.activity.auth.ActivationActivity;
+import com.eyadalalimi.students.ui.activity.auth.LoginActivity;
 import com.eyadalalimi.students.ui.activity.auth.VerifyEmailActivity;
 import com.google.android.material.appbar.MaterialToolbar;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class HomeActivity extends BaseActivity {
 
@@ -101,21 +103,44 @@ public class HomeActivity extends BaseActivity {
     }
 
     private void fullReload() {
-        // تحديث حالة المستخدم لإظهار البنرات الدقيقة
+        // جلب البروفايل لتحديث البنرات، ثم تحميل الخلاصة
         profileRepo.getProfile(new ApiCallback<User>() {
             @Override public void onSuccess(User u) {
-                updateBanners(u);
-                // ثم الخلاصة
+                try {
+                    updateBanners(u);   // يعتمد على email_verified_at و has_active_subscription
+                } catch (Exception ignore) {}
                 reloadFeed();
             }
+
             @Override public void onError(String message) {
-                // حتى لو فشل /me، نكمل تحميل الخلاصة
-                Toast.makeText(HomeActivity.this, message, Toast.LENGTH_SHORT).show();
-                updateBanners(null);
+                // حتى لو فشل /me نحدّث البنرات كحالة افتراضية ونكمل تحميل الخلاصة
+                try { updateBanners(null); } catch (Exception ignore) {}
                 reloadFeed();
+
+                // التعامل مع انتهاء الجلسة (401) أو رسائل "يرجى تسجيل الدخول"
+                if (message != null &&
+                        (message.contains("يرجى تسجيل الدخول")
+                                || message.toLowerCase(Locale.US).contains("unauth"))) {
+
+                    // تنظيف التوكن حتى لا تبقى جلسة تالفة
+                    getSharedPreferences("auth", MODE_PRIVATE)
+                            .edit().remove("token").apply();
+
+                    Toast.makeText(HomeActivity.this,
+                            "انتهت الجلسة، يرجى تسجيل الدخول مجددًا.",
+                            Toast.LENGTH_SHORT).show();
+
+                    // الانتقال لشاشة تسجيل الدخول ومسح الـ back stack
+                    Intent i = new Intent(HomeActivity.this, LoginActivity.class);
+                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(i);
+                } else if (message != null && !message.trim().isEmpty()) {
+                    Toast.makeText(HomeActivity.this, message, Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
+
 
     private void updateBanners(User u) {
         boolean needVerify = u != null && (u.email_verified_at == null || u.email_verified_at.trim().isEmpty());
