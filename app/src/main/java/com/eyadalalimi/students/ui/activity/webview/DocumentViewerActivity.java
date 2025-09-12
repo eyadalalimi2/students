@@ -74,7 +74,12 @@ public class DocumentViewerActivity extends BaseActivity {
         tvUrl.setText(url != null ? url : "-");
 
         dm = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
-        registerReceiver(onDownloadComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+        IntentFilter filter = new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            registerReceiver(onDownloadComplete, filter, Context.RECEIVER_NOT_EXPORTED);
+        } else {
+            registerReceiver(onDownloadComplete, filter);
+        }
 
         btnDownload.setOnClickListener(v -> {
             if (requiresLegacyStoragePermission()) {
@@ -138,39 +143,40 @@ public class DocumentViewerActivity extends BaseActivity {
     private void openDownloadedFile(long downloadId) {
         try {
             DownloadManager.Query q = new DownloadManager.Query().setFilterById(downloadId);
-            Cursor c = dm.query(q);
-            if (c == null) { Toast.makeText(this, "تعذّر فتح الملف", Toast.LENGTH_SHORT).show(); return; }
-            try {
-                if (!c.moveToFirst()) { Toast.makeText(this, "تعذّر فتح الملف", Toast.LENGTH_SHORT).show(); return; }
-                int status = c.getInt(c.getColumnIndexOrThrow(DownloadManager.COLUMN_STATUS));
-                if (status != DownloadManager.STATUS_SUCCESSFUL) {
-                    Toast.makeText(this, "فشل التنزيل", Toast.LENGTH_SHORT).show(); return;
-                }
-                String localUriStr = c.getString(c.getColumnIndexOrThrow(DownloadManager.COLUMN_LOCAL_URI));
-                String mime = c.getString(c.getColumnIndexOrThrow(DownloadManager.COLUMN_MEDIA_TYPE));
-                Uri localUri = localUriStr != null ? Uri.parse(localUriStr) : null;
-                if (localUri == null) { Toast.makeText(this, "ملف غير متاح", Toast.LENGTH_SHORT).show(); return; }
+            try (Cursor c = dm.query(q)) {
+                if (c == null || !c.moveToFirst()) { toast("تعذّر فتح الملف"); return; }
 
-                Intent open = new Intent(Intent.ACTION_VIEW);
-                open.setDataAndType(localUri, !TextUtils.isEmpty(mime) ? mime : guessMimeByExtension(localUri.getLastPathSegment()));
-                open.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_ACTIVITY_NO_HISTORY);
+                int status = c.getInt(c.getColumnIndexOrThrow(DownloadManager.COLUMN_STATUS));
+                if (status != DownloadManager.STATUS_SUCCESSFUL) { toast("فشل التنزيل"); return; }
+
+                // استخدم content:// إن وُجد
+                Uri localUri = dm.getUriForDownloadedFile(downloadId);
+                if (localUri == null) {
+                    String localUriStr = c.getString(c.getColumnIndexOrThrow(DownloadManager.COLUMN_LOCAL_URI));
+                    if (localUriStr != null) localUri = Uri.parse(localUriStr);
+                }
+                if (localUri == null) { toast("ملف غير متاح"); return; }
+
+                String mime = c.getString(c.getColumnIndexOrThrow(DownloadManager.COLUMN_MEDIA_TYPE));
+                Intent open = new Intent(Intent.ACTION_VIEW)
+                        .setDataAndType(localUri, !TextUtils.isEmpty(mime) ? mime : guessMimeByExtension(localUri.getLastPathSegment()))
+                        .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_ACTIVITY_NO_HISTORY);
 
                 try {
                     startActivity(open);
                 } catch (ActivityNotFoundException e) {
-                    // محاولة عامة دون type
-                    Intent generic = new Intent(Intent.ACTION_VIEW);
-                    generic.setData(localUri);
-                    generic.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_ACTIVITY_NO_HISTORY);
-                    startActivity(generic);
+                    startActivity(new Intent(Intent.ACTION_VIEW)
+                            .setData(localUri)
+                            .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_ACTIVITY_NO_HISTORY));
                 }
-            } finally {
-                c.close();
             }
         } catch (Exception e) {
-            Toast.makeText(this, "لا يوجد تطبيق مناسب لفتح الملف", Toast.LENGTH_LONG).show();
+            toast("لا يوجد تطبيق مناسب لفتح الملف");
         }
     }
+
+    private void toast(String msg) { Toast.makeText(this, msg, Toast.LENGTH_SHORT).show(); }
+
 
     private String fileNameFromUrl(String url) {
         try {
