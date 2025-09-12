@@ -26,11 +26,14 @@ import com.eyadalalimi.students.response.TokenResponse;
 import java.util.List;
 import java.util.Map;
 
+import okhttp3.MultipartBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
+import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -67,6 +70,12 @@ public interface ApiService {
     // body ديناميكي: name, phone, university_id, college_id, major_id, level, gender, ...
     @PUT("me/profile")
     Call<ApiResponse<User>> updateProfile(@Body Map<String, Object> body);
+
+    // جديد: رفع صورة البروفايل (Multipart)
+    @Multipart
+    @PUT("me/profile/photo")
+    Call<ApiResponse<User>> uploadProfilePhoto(@Part MultipartBody.Part photo);
+
 
     // body: { "current_password":"...", "new_password":"...", "new_password_confirmation":"..." }
     @PUT("me/security/change-password")

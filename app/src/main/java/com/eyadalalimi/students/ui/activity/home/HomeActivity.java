@@ -102,7 +102,7 @@ public class HomeActivity extends BaseActivity {
 
     private void fullReload() {
         // تحديث حالة المستخدم لإظهار البنرات الدقيقة
-        profileRepo.me(new ApiCallback<User>() {
+        profileRepo.getProfile(new ApiCallback<User>() {
             @Override public void onSuccess(User u) {
                 updateBanners(u);
                 // ثم الخلاصة
