@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- الشبكة -->
+    <!-- INTERNET -->
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
-    <!-- إذن قديم، مقيّد حتى 28 -->
     <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="28"/>
@@ -23,12 +22,11 @@
         android:fullBackupContent="@xml/backup_rules"
         android:dataExtractionRules="@xml/data_extraction_rules">
 
-    <!-- Splash: نقطة الدخول الوحيدة -->
+    <!-- Splash:  -->
     <activity
         android:name=".ui.activity.splash.SplashActivity"
         android:exported="true"
-        android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar"
-        android:screenOrientation="unspecified">
+        android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar">
         <intent-filter>
             <action android:name="android.intent.action.MAIN"/>
             <category android:name="android.intent.category.LAUNCHER"/>
@@ -39,115 +37,94 @@
     <activity
         android:name=".ui.activity.auth.LoginActivity"
         android:exported="false"
-        android:windowSoftInputMode="adjustPan|stateHidden"
-        android:screenOrientation="unspecified"/>
+        android:windowSoftInputMode="adjustPan|stateHidden"/>
 
     <activity
         android:name=".ui.activity.auth.RegisterActivity"
         android:exported="false"
-        android:windowSoftInputMode="adjustPan|stateHidden"
-        android:screenOrientation="unspecified"/>
+        android:windowSoftInputMode="adjustPan|stateHidden"/>
 
-    <!-- تحقق البريد عبر رابط (لا إدخال OTP) -->
     <activity
         android:name=".ui.activity.auth.VerifyEmailActivity"
         android:exported="false"
-        android:windowSoftInputMode="adjustPan|stateHidden"
-        android:screenOrientation="unspecified"/>
+        android:windowSoftInputMode="adjustPan|stateHidden"/>
 
     <activity
         android:name=".ui.activity.auth.ActivationActivity"
         android:exported="false"
-        android:windowSoftInputMode="adjustPan|stateHidden"
-        android:screenOrientation="unspecified"/>
+        android:windowSoftInputMode="adjustPan|stateHidden"/>
 
     <activity
         android:name=".ui.activity.auth.ForgotPasswordActivity"
-        android:exported="false"
-        android:screenOrientation="unspecified"/>
+        android:exported="false"/>
 
     <activity
         android:name=".ui.activity.auth.ResetPasswordActivity"
-        android:exported="false"
-        android:screenOrientation="unspecified"/>
+        android:exported="false"/>
 
-    <!-- Home (بدون LAUNCHER) -->
+    <!-- Home ( LAUNCHER) -->
     <activity
         android:name=".ui.activity.home.HomeActivity"
         android:exported="false"
-        android:label="@string/home_title"
-        android:screenOrientation="unspecified"/>
+        android:label="@string/home_title"/>
 
     <!-- Profile & Security -->
     <activity
         android:name=".ui.activity.profile.ProfileActivity"
-        android:exported="false"
-        android:screenOrientation="unspecified"/>
+        android:exported="false"/>
 
     <activity
         android:name=".ui.activity.profile.ChangePasswordActivity"
-        android:exported="false"
-        android:screenOrientation="unspecified"/>
+        android:exported="false"/>
 
     <activity
         android:name=".ui.activity.profile.DevicesActivity"
-        android:exported="false"
-        android:screenOrientation="unspecified"/>
+        android:exported="false"/>
 
     <!-- Visibility & Notifications -->
     <activity
         android:name=".ui.activity.visibility.VisibilityActivity"
-        android:exported="false"
-        android:screenOrientation="unspecified"/>
+        android:exported="false"/>
 
     <activity
         android:name=".ui.activity.notifications.NotificationsActivity"
-        android:exported="false"
-        android:screenOrientation="unspecified"/>
+        android:exported="false"/>
 
     <!-- Assets -->
     <activity
         android:name=".ui.activity.assets.AssetsListActivity"
         android:exported="false"
-        android:label="@string/assets_title"
-        android:screenOrientation="unspecified"/>
+        android:label="@string/assets_title"/>
 
     <activity
         android:name=".ui.activity.assets.AssetDetailsActivity"
-        android:exported="false"
-        android:screenOrientation="unspecified"/>
+        android:exported="false"/>
 
     <!-- Contents -->
     <activity
         android:name=".ui.activity.contents.ContentsListActivity"
         android:exported="false"
-        android:label="@string/contents_title"
-        android:screenOrientation="unspecified"/>
+        android:label="@string/contents_title"/>
 
     <activity
         android:name=".ui.activity.contents.ContentDetailsActivity"
-        android:exported="false"
-        android:screenOrientation="unspecified"/>
+        android:exported="false"/>
 
     <!-- Materials -->
     <activity
         android:name=".ui.activity.materials.MaterialsActivity"
         android:exported="false"
-        android:label="@string/title_materials"
-        android:screenOrientation="unspecified"/>
+        android:label="@string/title_materials"/>
 
     <activity
         android:name=".ui.activity.materials.MaterialDetailsActivity"
         android:exported="false"
-        android:label="@string/title_material_details"
-        android:screenOrientation="unspecified"/>
+        android:label="@string/title_material_details"/>
 
-    <!-- Web / Viewer: نسمح بالدوران الكامل لراحة القراءة/الفيديو -->
     <activity
         android:name=".ui.activity.webview.DocumentViewerActivity"
         android:exported="false"
         android:label="@string/doc_viewer_title"
-        android:configChanges="keyboard|keyboardHidden"
-    android:screenOrientation="fullSensor"/>
+        android:configChanges="keyboard|keyboardHidden"/>
 </application>
     </manifest>
