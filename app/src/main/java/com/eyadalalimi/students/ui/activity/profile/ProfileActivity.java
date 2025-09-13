@@ -152,18 +152,30 @@ public class ProfileActivity extends BaseActivity {
         binding.spUniversity.setOnItemSelectedListener(new SimpleItemSelectedListener(pos -> {
             if (pos < 0 || pos >= universities.size()) return;
             University u = universities.get(pos);
+            if (u.id.equals(selectedUniversityId)) return; // لم يتغير الاختيار
+
             selectedUniversityId = u.id;
             selectedCollegeId = null;
             selectedMajorId   = null;
-            loadColleges(u.id, currentUser != null ? currentUser.college_id : null);
+
+            // مسح القوائم التابعة قبل التحميل
+            clearColleges();
+            clearMajors();
+
+            loadColleges(u.id, null); // لا يوجد اختيار مسبق للكلية عند تغيير الجامعة
         }));
 
         binding.spCollege.setOnItemSelectedListener(new SimpleItemSelectedListener(pos -> {
             if (pos < 0 || pos >= colleges.size()) return;
             College c = colleges.get(pos);
+            if (c.id.equals(selectedCollegeId)) return; // لم يتغير الاختيار
+
             selectedCollegeId = c.id;
             selectedMajorId = null;
-            loadMajors(c.id, currentUser != null ? currentUser.major_id : null);
+
+            // مسح قائمة التخصصات قبل التحميل
+            clearMajors();
+            loadMajors(c.id, null); // لا يوجد اختيار مسبق للتخصص عند تغيير الكلية
         }));
 
         binding.spMajor.setOnItemSelectedListener(new SimpleItemSelectedListener(pos -> {
@@ -304,6 +316,7 @@ public class ProfileActivity extends BaseActivity {
                     int pos = Math.max(0, binding.spUniversity.getSelectedItemPosition());
                     selectedUniversityId = universities.get(pos).id;
                 }
+                // عند التحميل لأول مرة، حمّل الكليات المرتبطة
                 if (selectedUniversityId != null) {
                     loadColleges(selectedUniversityId, selectedCollegeId);
                 }
@@ -320,8 +333,7 @@ public class ProfileActivity extends BaseActivity {
     private void loadColleges(long universityId, @Nullable Long preselectCollegeId) {
         setLoading(true); // Start: loadColleges
         binding.spCollege.setEnabled(false);
-        collegeAdapter.clear();
-        colleges.clear();
+        clearColleges();
 
         catalogRepo.colleges(universityId, new CatalogRepository.ApiCallback<List<College>>() {
             @Override public void onSuccess(List<College> list) {
@@ -342,9 +354,7 @@ public class ProfileActivity extends BaseActivity {
                 if (selectedCollegeId != null) {
                     loadMajors(selectedCollegeId, selectedMajorId);
                 } else {
-                    majors.clear();
-                    majorAdapter.clear();
-                    majorAdapter.notifyDataSetChanged();
+                    clearMajors();
                 }
                 setLoading(false); // Finish: loadColleges
             }
@@ -359,8 +369,7 @@ public class ProfileActivity extends BaseActivity {
     private void loadMajors(long collegeId, @Nullable Long preselectMajorId) {
         setLoading(true); // Start: loadMajors
         binding.spMajor.setEnabled(false);
-        majorAdapter.clear();
-        majors.clear();
+        clearMajors();
 
         catalogRepo.majors(collegeId, new CatalogRepository.ApiCallback<List<Major>>() {
             @Override public void onSuccess(List<Major> list) {
@@ -385,6 +394,19 @@ public class ProfileActivity extends BaseActivity {
                 setLoading(false); // Finish: loadMajors (with error)
             }
         });
+    }
+
+    private void clearColleges() {
+        collegeAdapter.clear();
+        colleges.clear();
+        collegeAdapter.notifyDataSetChanged();
+        binding.spCollege.setSelection(0);
+    }
+    private void clearMajors() {
+        majorAdapter.clear();
+        majors.clear();
+        majorAdapter.notifyDataSetChanged();
+        binding.spMajor.setSelection(0);
     }
 
     private int indexOfCountry(long id) { for (int i=0;i<countries.size();i++) if (countries.get(i).id==id) return i; return -1; }
