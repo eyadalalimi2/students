@@ -181,6 +181,11 @@ public class ProfileActivity extends BaseActivity {
                         .build())
         );
 
+        binding.personalInfoHeader.setOnClickListener(v -> {
+            boolean isVisible = binding.personalInfoFields.getVisibility() == View.VISIBLE;
+            binding.personalInfoFields.setVisibility(isVisible ? View.GONE : View.VISIBLE);
+        });
+
         binding.btnSave.setOnClickListener(v -> saveProfile());
         binding.btnChangePassword.setOnClickListener(v -> showChangePasswordDialog());
     }
@@ -258,11 +263,15 @@ public class ProfileActivity extends BaseActivity {
 
                 if (preselectId != null) {
                     int idx = indexOfCountry(preselectId);
-                    if (idx >= 0) binding.spCountry.setSelection(idx);
+                    if (idx >= 0) {
+                        binding.spCountry.setSelection(idx);
+                        binding.tvCountry.setText(countries.get(idx).name);
+                    }
                 }
                 if (selectedCountryId == null && !countries.isEmpty()) {
                     int pos = Math.max(0, binding.spCountry.getSelectedItemPosition());
                     selectedCountryId = countries.get(pos).id;
+                    binding.tvCountry.setText(countries.get(pos).name);
                 }
                 setLoading(false); // Finish: loadCountries
             }
