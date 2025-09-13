@@ -47,7 +47,7 @@ public class ProfileActivity extends BaseActivity {
     private ActivityProfileBinding binding;
     private ProfileRepository profileRepo;
     private CatalogRepository catalogRepo;
-
+    private int loadingOps = 0;
     @Nullable private User currentUser;
     private String[] levels;
 
@@ -445,9 +445,25 @@ public class ProfileActivity extends BaseActivity {
     // ---------- أدوات مساعدة ----------
 
     private void setLoading(boolean show) {
-        binding.progress.setVisibility(show ? View.VISIBLE : View.GONE);
-        binding.container.setAlpha(show ? 0.5f : 1f);
-        binding.container.setEnabled(!show);
+        if (show) {
+            loadingOps++;
+        } else {
+            if (loadingOps > 0) loadingOps--;
+        }
+        boolean display = loadingOps > 0;
+        binding.progress.setVisibility(display ? View.VISIBLE : View.GONE);
+        binding.container.setAlpha(display ? 0.5f : 1f);
+        binding.container.setEnabled(!display);
+    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        loadingOps = 0;
+        if (binding != null) {
+            binding.progress.setVisibility(View.GONE);
+            binding.container.setAlpha(1f);
+            binding.container.setEnabled(true);
+        }
     }
 
     private void putIfNotEmpty(Map<String, Object> map, String key, String val) {
