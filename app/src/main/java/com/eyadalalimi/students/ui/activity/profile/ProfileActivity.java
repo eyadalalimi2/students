@@ -175,7 +175,7 @@ public class ProfileActivity extends BaseActivity {
     }
 
     private void setupClicks() {
-        binding.btnChangePhoto.setOnClickListener(v ->
+        binding.photoContainer.setOnClickListener(v ->
                 pickPhotoLauncher.launch(new PickVisualMediaRequest.Builder()
                         .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE)
                         .build())
@@ -211,6 +211,12 @@ public class ProfileActivity extends BaseActivity {
     private void bindUser(@Nullable User u) {
         if (u == null) return;
 
+        // Bind header
+        binding.tvProfileName.setText(u.name);
+        binding.tvEmail.setText(u.email);
+        binding.tvPhone.setText(u.phone);
+        
+        // Bind editable fields
         binding.etStudentNumber.setText(u.student_number);
         binding.etName.setText(u.name);
         binding.etEmail.setText(u.email);

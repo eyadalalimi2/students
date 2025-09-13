@@ -20,20 +20,36 @@
             android:padding="16dp">
 
             <!-- Profile Header -->
-            <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/ivPhoto"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:background="@color/cardview_dark_background"
-                android:contentDescription="@string/app_name"
-                android:padding="4dp"
-                android:scaleType="centerCrop"
+            <FrameLayout
+                android:id="@+id/photo_container"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full"
-                app:strokeColor="?colorPrimary"
-                app:strokeWidth="2dp"
-                tools:src="@mipmap/ic_launcher_round" />
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/ivPhoto"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:background="@color/cardview_dark_background"
+                    android:contentDescription="@string/app_name"
+                    android:padding="4dp"
+                    android:scaleType="centerCrop"
+                    app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full"
+                    app:strokeColor="?colorPrimary"
+                    app:strokeWidth="2dp"
+                    tools:src="@mipmap/ic_launcher_round" />
+
+                <ImageView
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_gravity="bottom|end"
+                    android:background="@drawable/bg_circle_primary"
+                    android:contentDescription="تغيير الصورة"
+                    android:padding="6dp"
+                    android:src="@drawable/ic_edit_photo" />
+
+            </FrameLayout>
 
             <TextView
                 android:id="@+id/tvProfileName"
@@ -44,32 +60,41 @@
                 android:gravity="start"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/ivPhoto"
-                app:layout_constraintTop_toTopOf="@id/ivPhoto"
+                app:layout_constraintStart_toEndOf="@id/photo_container"
+                app:layout_constraintTop_toTopOf="@id/photo_container"
                 tools:text="اسم الطالب" />
 
             <TextView
-                android:id="@+id/tvStudentNumber"
+                android:id="@+id/tvEmail"
                 style="@style/TextAppearance.Material3.BodyMedium"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:gravity="start"
+                android:layout_marginTop="4dp"
+                android:drawablePadding="8dp"
+                android:gravity="center_vertical"
                 android:textColor="?android:textColorSecondary"
+                app:drawableStartCompat="@drawable/ic_email"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/ivPhoto"
+                app:layout_constraintStart_toEndOf="@id/photo_container"
                 app:layout_constraintTop_toBottomOf="@id/tvProfileName"
-                tools:text="K20101020" />
+                tools:text="email@example.com" />
 
-            <Button
-                android:id="@+id/btnChangePhoto"
-                style="@style/Widget.Material3.Button.TonalButton"
-                android:layout_width="wrap_content"
+            <TextView
+                android:id="@+id/tvPhone"
+                style="@style/TextAppearance.Material3.BodyMedium"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:text="تغيير الصورة"
-                app:layout_constraintBottom_toBottomOf="@id/ivPhoto"
-                app:layout_constraintStart_toEndOf="@id/ivPhoto" />
+                android:layout_marginTop="4dp"
+                android:drawablePadding="8dp"
+                android:gravity="center_vertical"
+                android:textColor="?android:textColorSecondary"
+                app:drawableStartCompat="@drawable/ic_phone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/photo_container"
+                app:layout_constraintTop_toBottomOf="@id/tvEmail"
+                tools:text="+123456789" />
 
 
             <!-- Personal Information Card -->
@@ -81,13 +106,21 @@
                 app:cardElevation="4dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/ivPhoto">
+                app:layout_constraintTop_toBottomOf="@id/photo_container">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:padding="16dp">
+
+                    <TextView
+                        style="@style/TextAppearance.Material3.TitleMedium"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="12dp"
+                        android:text="تعديل المعلومات الشخصية" />
+
 
                     <com.google.android.material.textfield.TextInputLayout
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
