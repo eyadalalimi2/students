@@ -188,7 +188,7 @@ public class ProfileActivity extends BaseActivity {
     // ---------- البيانات ----------
 
     private void loadData() {
-        setLoading(true);
+        setLoading(true); // Start: getProfile
         profileRepo.getProfile(new ApiCallback<User>() {
             @Override public void onSuccess(User data) {
                 currentUser = data;
@@ -196,13 +196,14 @@ public class ProfileActivity extends BaseActivity {
                 // حمّل القوائم بالأسماء مع اختيار مسبق
                 loadCountries(data != null ? data.country_id : null);
                 loadUniversities(data != null ? data.university_id : null);
+                setLoading(false); // Finish: getProfile
             }
             @Override public void onError(String msg) {
                 Toast.makeText(ProfileActivity.this, msg, Toast.LENGTH_LONG).show();
                 // حتى لو فشل /me، حمّل القوائم لتمكين التعديل
                 loadCountries(null);
                 loadUniversities(null);
-                setLoading(false);
+                setLoading(false); // Finish: getProfile (with error)
             }
         });
     }
@@ -237,6 +238,7 @@ public class ProfileActivity extends BaseActivity {
     // ---------- تحميل القوائم ----------
 
     private void loadCountries(@Nullable Long preselectId) {
+        setLoading(true); // Start: loadCountries
         binding.spCountry.setEnabled(false);
         countryAdapter.clear();
         countries.clear();
@@ -256,15 +258,18 @@ public class ProfileActivity extends BaseActivity {
                     int pos = Math.max(0, binding.spCountry.getSelectedItemPosition());
                     selectedCountryId = countries.get(pos).id;
                 }
+                setLoading(false); // Finish: loadCountries
             }
             @Override public void onError(String msg) {
                 binding.spCountry.setEnabled(true);
                 Toast.makeText(ProfileActivity.this, msg, Toast.LENGTH_SHORT).show();
+                setLoading(false); // Finish: loadCountries (with error)
             }
         });
     }
 
     private void loadUniversities(@Nullable Long preselectId) {
+        setLoading(true); // Start: loadUniversities
         binding.spUniversity.setEnabled(false);
         uniAdapter.clear();
         universities.clear();
@@ -287,15 +292,18 @@ public class ProfileActivity extends BaseActivity {
                 if (selectedUniversityId != null) {
                     loadColleges(selectedUniversityId, selectedCollegeId);
                 }
+                setLoading(false); // Finish: loadUniversities
             }
             @Override public void onError(String msg) {
                 binding.spUniversity.setEnabled(true);
                 Toast.makeText(ProfileActivity.this, msg, Toast.LENGTH_SHORT).show();
+                setLoading(false); // Finish: loadUniversities (with error)
             }
         });
     }
 
     private void loadColleges(long universityId, @Nullable Long preselectCollegeId) {
+        setLoading(true); // Start: loadColleges
         binding.spCollege.setEnabled(false);
         collegeAdapter.clear();
         colleges.clear();
@@ -323,15 +331,18 @@ public class ProfileActivity extends BaseActivity {
                     majorAdapter.clear();
                     majorAdapter.notifyDataSetChanged();
                 }
+                setLoading(false); // Finish: loadColleges
             }
             @Override public void onError(String msg) {
                 binding.spCollege.setEnabled(true);
                 Toast.makeText(ProfileActivity.this, msg, Toast.LENGTH_SHORT).show();
+                setLoading(false); // Finish: loadColleges (with error)
             }
         });
     }
 
     private void loadMajors(long collegeId, @Nullable Long preselectMajorId) {
+        setLoading(true); // Start: loadMajors
         binding.spMajor.setEnabled(false);
         majorAdapter.clear();
         majors.clear();
@@ -351,10 +362,12 @@ public class ProfileActivity extends BaseActivity {
                     int pos = Math.max(0, binding.spMajor.getSelectedItemPosition());
                     selectedMajorId = majors.get(pos).id;
                 }
+                setLoading(false); // Finish: loadMajors
             }
             @Override public void onError(String msg) {
                 binding.spMajor.setEnabled(true);
                 Toast.makeText(ProfileActivity.this, msg, Toast.LENGTH_SHORT).show();
+                setLoading(false); // Finish: loadMajors (with error)
             }
         });
     }
@@ -391,15 +404,16 @@ public class ProfileActivity extends BaseActivity {
             return;
         }
 
-        setLoading(true);
+        setLoading(true); // Start: updateProfile
         profileRepo.updateProfile(body, new ApiCallback<User>() {
             @Override public void onSuccess(User data) {
+                setLoading(false); // Finish: updateProfile
                 // تحديث فوري داخل الصفحة
                 loadData();
                 Toast.makeText(ProfileActivity.this, "تم الحفظ بنجاح", Toast.LENGTH_SHORT).show();
             }
             @Override public void onError(String msg) {
-                setLoading(false);
+                setLoading(false); // Finish: updateProfile (with error)
                 Toast.makeText(ProfileActivity.this, msg, Toast.LENGTH_LONG).show();
             }
         });
