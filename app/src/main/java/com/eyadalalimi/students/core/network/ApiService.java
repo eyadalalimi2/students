@@ -29,6 +29,7 @@ import java.util.Map;
 import okhttp3.MultipartBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
@@ -70,12 +71,13 @@ public interface ApiService {
     // body ديناميكي: name, phone, university_id, college_id, major_id, level, gender, ...
     @PUT("me/profile")
     Call<ApiResponse<User>> updateProfile(@Body Map<String, Object> body);
-
-    // جديد: رفع صورة البروفايل (Multipart)
+    // === NEW: صورة البروفايل ===
     @Multipart
-    @PUT("me/profile/photo")
+    @POST("me/profile/photo")
     Call<ApiResponse<User>> uploadProfilePhoto(@Part MultipartBody.Part photo);
 
+    @DELETE("me/profile/photo")
+    Call<ApiResponse<User>> deleteProfilePhoto();
 
     // body: { "current_password":"...", "new_password":"...", "new_password_confirmation":"..." }
     @PUT("me/security/change-password")

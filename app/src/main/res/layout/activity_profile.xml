@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
     <androidx.core.widget.NestedScrollView
         android:id="@+id/container"
         android:layout_width="match_parent"
@@ -70,34 +69,54 @@
                 android:hint="الجوال"
                 android:inputType="phone" />
 
-            <EditText
-                android:id="@+id/etCountryId"
+            <!-- الدولة تركناها كما هي (ID) حسب رغبتك الحالية -->
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="الدولة (ID)"
-                android:inputType="number" />
-
-            <EditText
-                android:id="@+id/etUniversityId"
+                android:hint="الدولة" />
+            <Spinner
+                android:id="@+id/spCountry"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="الجامعة (ID)"
-                android:inputType="number" />
+                android:minHeight="48dp" />
 
-            <EditText
-                android:id="@+id/etCollegeId"
+            <!-- الجامعة بالاسم -->
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="الكلية (ID)"
-                android:inputType="number" />
+                android:text="الجامعة" />
 
-            <EditText
-                android:id="@+id/etMajorId"
+            <Spinner
+                android:id="@+id/spUniversity"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="التخصص (ID)"
-                android:inputType="number" />
+                android:minHeight="48dp" />
 
+            <!-- الكلية حسب الجامعة المختارة -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="الكلية" />
+
+            <Spinner
+                android:id="@+id/spCollege"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="48dp" />
+
+            <!-- التخصص حسب الكلية المختارة -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="التخصص" />
+
+            <Spinner
+                android:id="@+id/spMajor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="48dp" />
+
+            <!-- المستوى -->
             <EditText
                 android:id="@+id/etLevel"
                 android:layout_width="match_parent"
@@ -105,6 +124,7 @@
                 android:hint="المستوى"
                 android:inputType="number" />
 
+            <!-- النوع -->
             <Spinner
                 android:id="@+id/spGender"
                 android:layout_width="match_parent"
