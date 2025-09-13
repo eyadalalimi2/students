@@ -1,13 +1,13 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- لو عندك arrays.xml مسبقًا، فقط أضف هذا الـ string-array داخله -->
     <string-array name="levels_array">
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-        <item>4</item>
-        <item>5</item>
-        <item>6</item>
-        <item>7</item>
-        <item>8</item>
+        <item>المستوى الأول</item>
+        <item>المستوى الثاني</item>
+        <item>المستوى الثالث</item>
+        <item>المستوى الرابع</item>
+        <item>المستوى الخامس</item>
+        <item>المستوى السادس</item>
+        <item>المستوى السابع</item>
+        <item>المستوى الثامن</item>
     </string-array>
 </resources>

@@ -117,12 +117,15 @@
                 android:minHeight="48dp" />
 
             <!-- المستوى -->
-            <EditText
-                android:id="@+id/etLevel"
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="المستوى"
-                android:inputType="number" />
+                android:hint="المستوى"/>
+            <Spinner
+                android:id="@+id/spLevel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="48dp" />
 
             <!-- النوع -->
             <Spinner

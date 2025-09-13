@@ -49,6 +49,7 @@ public class ProfileActivity extends BaseActivity {
     private CatalogRepository catalogRepo;
 
     @Nullable private User currentUser;
+    private String[] levels;
 
     // مصادر القوائم
     private final List<Country> countries = new ArrayList<>();
@@ -107,6 +108,7 @@ public class ProfileActivity extends BaseActivity {
         catalogRepo  = new CatalogRepository(this);
 
         setupGenderSpinner();
+        setupLevelSpinner();
         setupNameSpinners();
         setupClicks();
 
@@ -119,6 +121,15 @@ public class ProfileActivity extends BaseActivity {
         String[] genders = new String[]{"male", "female"};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, genders);
         binding.spGender.setAdapter(adapter);
+    }
+    private void setupLevelSpinner() {
+        levels = getResources().getStringArray(R.array.levels_array);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                this,
+                android.R.layout.simple_dropdown_item_1line,
+                levels
+        );
+        binding.spLevel.setAdapter(adapter);
     }
 
     private void setupNameSpinners() {
@@ -160,6 +171,7 @@ public class ProfileActivity extends BaseActivity {
             Major m = majors.get(pos);
             selectedMajorId = m.id;
         }));
+
     }
 
     private void setupClicks() {
@@ -202,7 +214,11 @@ public class ProfileActivity extends BaseActivity {
         binding.etName.setText(u.name);
         binding.etEmail.setText(u.email);
         binding.etPhone.setText(u.phone);
-        binding.etLevel.setText(u.level != null ? String.valueOf(u.level) : "");
+        if (u.level != null && u.level > 0 && levels != null && u.level <= levels.length) {
+            binding.spLevel.setSelection(u.level - 1);
+        } else {
+            binding.spLevel.setSelection(0); // أو اتركها كما هي
+        }
 
         if (!TextUtils.isEmpty(u.gender)) {
             binding.spGender.setSelection("female".equalsIgnoreCase(u.gender) ? 1 : 0);
@@ -362,7 +378,10 @@ public class ProfileActivity extends BaseActivity {
         if (selectedCollegeId    != null) body.put("college_id",    selectedCollegeId);
         if (selectedMajorId      != null) body.put("major_id",      selectedMajorId);
 
-        putIfInt(binding.etLevel.getText().toString().trim(), "level", body);
+        int levelIdx = binding.spLevel.getSelectedItemPosition(); // 0-based
+        if (levelIdx >= 0) {
+            body.put("level", levelIdx + 1);
+        }
 
         String gender = (String) binding.spGender.getSelectedItem();
         if (!TextUtils.isEmpty(gender)) body.put("gender", gender);
